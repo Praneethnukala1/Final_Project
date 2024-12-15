@@ -1,4 +1,3 @@
-# Final_Project
 # Order Management System API
 
 This is a simple RESTful API for managing customers, items, and orders in a store. The API is built using **FastAPI**, **SQLite**, and **Pydantic**.
