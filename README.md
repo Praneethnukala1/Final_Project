@@ -1,220 +1,63 @@
-# Order Management System API
+# FastAPI Order Management System
 
-This is a simple RESTful API for managing customers, items, and orders in a store. The API is built using **FastAPI**, **SQLite**, and **Pydantic**.
+This project is a simple **Order Management System** built using Python's FastAPI framework and SQLite for data storage. The system allows you to manage customers, items, and orders efficiently through RESTful API endpoints.
 
-### Features:
-- **Customers**: Manage customer information (create, read, update, delete).
-- **Items**: Manage items in the store (create, read, update, delete).
-- **Orders**: Create, update, and view orders, with automatic price adjustments if the entered price is wrong.
+## Features
 
----
+- **Customer Management**: Add, view, update, and delete customer records.
+- **Item Management**: Add, view, update, and delete item records.
+- **Order Management**: Create, view, update, and delete orders. Automatically handle relationships between customers, items, and orders.
 
-## Setup
+## Project Structure
 
-### Prerequisites:
-- Python 3.8+
-- SQLite (SQLite is used as the database)
+The project is designed with simplicity and modularity in mind:
 
-## API Endpoints
+- **`main.py`**: Contains the FastAPI application with API endpoints for managing customers, items, and orders.
+- **`init_db.py`**: Initializes the SQLite database by creating the required tables.
+- **Database Schema**:
+  - `customers`: Stores customer details (`id`, `name`, `phone`).
+  - `items`: Stores item details (`id`, `name`, `price`).
+  - `orders`: Stores order details (`id`, `customer_id`, `timestamp`, `notes`).
+  - `order_items`: Stores the relationship between orders and items (`order_id`, `item_id`).
 
-### 1. **Create Order**
+## How to Use
 
-- **Endpoint**: `POST /orders`
-- **Description**: Create a new order for a customer.
-- **Request Body**:
-    ```json
-    {
-        "customer_id": 1,
-        "items": [
-            {
-                "name": "Item Name"
-            }
-        ],
-        "notes": "Order Notes"
-    }
-    ```
-- **Response**:
-    ```json
-    {
-        "id": 1,
-        "message": "Order created successfully."
-    }
-    ```
+### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd <repository-directory>
+```
 
-### 2. **Update Order**
+### 2. Set Up the Environment
+Ensure you have Python 3.7+ installed. Set up a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+```
+### 3. Run the init_db.py script to create the necessary tables in the SQLite database:
+```bash
+pip install fastapi uvicorn
+```
 
-- **Endpoint**: `PUT /orders/{id}`
-- **Description**: Update an existing order. Replaces old items with new items.
-- **Request Body**:
-    ```json
-    {
-        "customer_id": 1,
-        "items": [
-            {
-                "name": "Updated Item Name"
-            }
-        ],
-        "notes": "Updated order notes"
-    }
-    ```
-- **Response**:
-    ```json
-    {
-        "message": "Order updated successfully."
-    }
-    ```
+### 4. Start the Application
+Run the FastAPI server using Uvicorn:
+```bash
+uvicorn main:app --reload
+```
 
-### 3. **Get Order by ID**
+## Interact with the API
 
-- **Endpoint**: `GET /orders/{id}`
-- **Description**: Fetch the details of an order by its ID.
-- **Response**:
-    ```json
-    {
-        "id": 1,
-        "customer_id": 1,
-        "notes": "Order Notes",
-        "items": [
-            {
-                "name": "Item Name",
-                "price": 20.5
-            }
-        ]
-    }
-    ```
+Once the application is running, you can interact with the API using tools like [Postman](https://www.postman.com/), [cURL](https://curl.se/), or directly through the interactive documentation provided by FastAPI.
 
-### 4. **Delete Order**
+### Accessing the Interactive API Documentation
 
-- **Endpoint**: `DELETE /orders/{id}`
-- **Description**: Delete an order by its ID.
-- **Response**:
-    ```json
-    {
-        "message": "Order deleted successfully."
-    }
-    ```
+FastAPI provides an automatic interactive interface for testing API endpoints:
 
-### 5. **Create Customer**
+1. Open your browser and go to:
+   - Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+   - ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
-- **Endpoint**: `POST /customers`
-- **Description**: Create a new customer.
-- **Request Body**:
-    ```json
-    {
-        "name": "Customer Name",
-        "phone": "123-456-7890"
-    }
-    ```
-- **Response**:
-    ```json
-    {
-        "message": "Customer created successfully."
-    }
-    ```
-
-### 6. **Get Customer by ID**
-
-- **Endpoint**: `GET /customers/{id}`
-- **Description**: Fetch customer details by their ID.
-- **Response**:
-    ```json
-    {
-        "id": 1,
-        "name": "Customer Name",
-        "phone": "123-456-7890"
-    }
-    ```
-
-### 7. **Update Customer**
-
-- **Endpoint**: `PUT /customers/{id}`
-- **Description**: Update customer details by their ID.
-- **Request Body**:
-    ```json
-    {
-        "name": "Updated Name",
-        "phone": "987-654-3210"
-    }
-    ```
-- **Response**:
-    ```json
-    {
-        "message": "Customer updated successfully."
-    }
-    ```
-
-### 8. **Delete Customer**
-
-- **Endpoint**: `DELETE /customers/{id}`
-- **Description**: Delete a customer by their ID.
-- **Response**:
-    ```json
-    {
-        "message": "Customer deleted successfully."
-    }
-    ```
-
-### 9. **Create Item**
-
-- **Endpoint**: `POST /items`
-- **Description**: Add a new item to the store.
-- **Request Body**:
-    ```json
-    {
-        "name": "Item Name",
-        "price": 20.5
-    }
-    ```
-- **Response**:
-    ```json
-    {
-        "message": "Item created successfully."
-    }
-    ```
-
-### 10. **Get Item by ID**
-
-- **Endpoint**: `GET /items/{id}`
-- **Description**: Get item details by its ID.
-- **Response**:
-    ```json
-    {
-        "id": 1,
-        "name": "Item Name",
-        "price": 20.5
-    }
-    ```
-
-### 11. **Update Item**
-
-- **Endpoint**: `PUT /items/{id}`
-- **Description**: Update item details by its ID.
-- **Request Body**:
-    ```json
-    {
-        "name": "Updated Item Name",
-        "price": 30.5
-    }
-    ```
-- **Response**:
-    ```json
-    {
-        "message": "Item updated successfully."
-    }
-    ```
-
-### 12. **Delete Item**
-
-- **Endpoint**: `DELETE /items/{id}`
-- **Description**: Delete an item by its ID.
-- **Response**:
-    ```json
-    {
-        "message": "Item deleted successfully."
-    }
-    ```
-
----
+2. Use the interface to test API operations such as creating, retrieving, updating, and deleting customers, items, and orders.
 
 ## Notes
 
@@ -222,4 +65,5 @@ This is a simple RESTful API for managing customers, items, and orders in a stor
 - The system handles customer and item data integrity, ensuring the relevant entities exist before creating orders or associating items.
 
 ---
+
 
