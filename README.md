@@ -19,6 +19,27 @@ The project is designed with simplicity and modularity in mind:
   - `items`: Stores item details (`id`, `name`, `price`).
   - `orders`: Stores order details (`id`, `customer_id`, `timestamp`, `notes`).
   - `order_items`: Stores the relationship between orders and items (`order_id`, `item_id`).
+ 
+## API Endpoints
+
+### Customer Endpoints
+- **POST** `/customers`: Create a new customer.
+- **GET** `/customers/{id}`: Retrieve customer details by ID.
+- **PUT** `/customers/{id}`: Update customer details.
+- **DELETE** `/customers/{id}`: Delete a customer.
+
+### Item Endpoints
+- **POST** `/items`: Add a new item to the menu.
+- **GET** `/items/{id}`: Get item details by ID.
+- **PUT** `/items/{id}`: Update an existing item in the menu.
+- **DELETE** `/items/{id}`: Delete an item from the menu.
+
+### Order Endpoints
+- **POST** `/orders`: Create a new order for a customer with one or more items.
+- **GET** `/orders/{id}`: Get order details, including items.
+- **PUT** `/orders/{id}`: Update an existing order.
+- **DELETE** `/orders/{id}`: Delete an order.
+
 
 ## How to Use
 
